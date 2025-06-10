@@ -1,4 +1,6 @@
-import './Login.css';
+import "./Login.css";
+import { Link } from "react-router-dom";
+
 
 function Login() {
   return (
@@ -16,7 +18,7 @@ function Login() {
         </div>
         <button type="submit">Login</button>
         <p className="options">
-          <a href="#">Forgot Password?</a> | <a href="#">Create Account</a>
+          <a href="#">Forgot Password?</a> | <Link to="/register">Create Account</Link>
         </p>
       </form>
     </div>

@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #004080, #0073e6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-container {
+  background-color: #ffffff;
+  padding: 10px 30px 5px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  margin: 5% 0% 5% 0%;
+  text-align: center;
+}
+
+h1 {
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 20px;
+  min-height: 65px; /* Ensure space for error message */
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #002b59;
+}
+
+.options {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.options a {
+  color: #004080;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+  height: 16px;           /* Reserve space even when hidden */
+  visibility: hidden;     /* Hide visually but keep space */
+}
+
+.error-message.visible {
+  visibility: visible;    /* Show when there's an error */
+}
