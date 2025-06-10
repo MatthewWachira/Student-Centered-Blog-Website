@@ -1,0 +1,44 @@
+.home-container {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e7f0fa;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: #004080;
+  margin: 0;
+}
+
+.loginButton {
+  padding: 0.5rem 1rem;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #0066cc;
+}
+
+.main {
+  padding: 2rem;
+  text-align: center;
+}
+
+.banner-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
