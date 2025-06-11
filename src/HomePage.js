@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { auth } from './firebase';
 import './HomePage.css';
-import banner from './assets/banner.jpg'; // Make sure this image exists
 
-function HomePage({ loggedIn, onLogout }) {
+function HomePage({ loggedIn, onLogin, onLogout }) {
   const handleLogoutClick = () => {
     const confirmed = window.confirm('Are you sure you want to log out?');
     if (confirmed) {
@@ -18,15 +17,12 @@ function HomePage({ loggedIn, onLogout }) {
         {loggedIn ? (
           <button className="loginButton" onClick={handleLogoutClick}>Logout</button>
         ) : (
-          <Link to="/login">
-            <button className="loginButton">Login</button>
-          </Link>
+          <button className="loginButton" onClick={onLogin}>Login with Google</button>
         )}
       </header>
 
       <main className="main">
-      
-        <h2>Welcome to the Strathmore Student Blog!</h2>
+        <h2>Welcome {auth.currentUser?.displayName || 'to the Strathmore Student Blog'}!</h2>
         <p>Explore ideas, share stories, and connect with fellow students.</p>
       </main>
     </div>
