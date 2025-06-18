@@ -1,0 +1,86 @@
+/* AboutUs.css */
+.aboutus-container {
+  background: linear-gradient(135deg, #004080 0%, #0073e6 100%);
+  min-height: 100vh;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.aboutus-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.08);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,64,128,0.10);
+  padding: 2.5rem 2rem 2.5rem 2rem;
+  margin-top: 0;
+}
+
+.aboutus-content h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.aboutus-content p.intro {
+  font-size: 1.15rem;
+  color: #cce6ff;
+  margin-bottom: 2rem;
+}
+
+.aboutus-content h2 {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.aboutus-content ul {
+  color: #e6f2ff;
+  font-size: 1.08rem;
+  margin-left: 1.2rem;
+  margin-bottom: 0;
+  line-height: 1.5
+}
+
+.aboutus-content p,
+.aboutus-content li {
+  color: #e6f2ff;
+    font-size: 1.1rem;
+}
+
+.aboutus-content p.section-summary {
+  color: #cce6ff;
+  margin-top: 0.7rem;
+}
+
+.aboutus-content p.final {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.18rem;
+  margin-top: 2rem;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,43,89,0.18);
+  letter-spacing: 0.5px;
+}
+
+.aboutus-content p.final span {
+  color: #ffff00;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0,64,128,0.18);
+}
+
+@media (max-width: 700px) {
+  .aboutus-content {
+    padding: 1.2rem 0.7rem;
+    margin-top: 0;
+  }
+  .aboutus-content h1 {
+    font-size: 2rem;
+  }
+}
