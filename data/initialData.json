@@ -1,0 +1,59 @@
+{
+  "users": {
+    "user_001": {
+      "email": "alice@strathmore.edu",
+      "displayName": "Alice Mwangi",
+      "role": "student"
+    },
+    "user_002": {
+      "email": "bob@strathmore.edu",
+      "displayName": "Bob Otieno",
+      "role": "student"
+    }
+  },
+  "blogPosts": {
+    "post_001": {
+      "authorId": "user_001",
+      "content": "This is Alice's first blog post!",
+      "dateCreated": "2025-06-18T10:00:00Z"
+    },
+    "post_002": {
+      "authorId": "user_002",
+      "content": "Hello from Bob!",
+      "dateCreated": "2025-06-19T11:30:00Z"
+    }
+  },
+  "comments": {
+    "comment_001": {
+      "postId": "post_001",
+      "userId": "user_002",
+      "content": "Great post, Alice!"
+    },
+    "comment_002": {
+      "postId": "post_002",
+      "userId": "user_001",
+      "content": "Thanks Bob!"
+    }
+  },
+  "likes": {
+    "like_001": {
+      "postId": "post_001",
+      "userId": "user_002"
+    }
+  },
+  "flags": {
+    "flag_001": {
+      "postId": "post_002",
+      "flaggedById": "user_001",
+      "reason": "Spam or inappropriate content",
+      "dateFlagged": "2025-06-19T12:00:00Z"
+    }
+  },
+  "notifications": {
+    "notification_001": {
+      "recipientId": "user_001",
+      "message": "Bob liked your post",
+      "dateSent": "2025-06-19T12:05:00Z"
+    }
+  }
+}
