@@ -110,3 +110,20 @@
     padding: 1rem 0.7rem;
   }
 }
+.blog-card.expanded {
+  background-color: #f3f8ff;
+  box-shadow: 0 4px 20px rgba(0, 64, 128, 0.18);
+  transform: scale(1.01);
+}
+
+.blog-card.expanded:hover {
+  transform: scale(1.01); /* Maintain size on hover if expanded */
+  box-shadow: 0 6px 26px rgba(0, 64, 128, 0.2);
+}
+
+.blog-excerpt.full {
+  white-space: pre-line;
+  font-size: 1.1rem;
+  color: #002b59;
+  line-height: 1.6;
+}

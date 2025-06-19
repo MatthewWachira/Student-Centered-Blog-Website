@@ -1,56 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Blogs.css';
-
-const mockBlogs = [
-  {
-    id: 1,
-    title: 'How to Succeed at Strathmore',
-    author: 'Kimberly Mwangi',
-    date: '2025-06-01',
-    excerpt: 'Tips and tricks for making the most of your university experience...',
-    likes: 12
-  },
-  {
-    id: 2,
-    title: 'Balancing Academics and Social Life',
-    author: 'John Kinoti',
-    date: '2025-06-10',
-    excerpt: 'Finding the right balance is key to a fulfilling student life...',
-    likes: 8
-  },
-  {
-    id: 3,
-    title: 'Top 5 Study Spots on Campus',
-    author: 'Mary Wanjiku',
-    date: '2025-06-15',
-    excerpt: 'Discover the best places to focus and get work done at Strathmore...',
-    likes: 15
-  }
-];
+import { ref, onValue } from 'firebase/database';
+import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 export default function Blogs({ user }) {
+  const [blogs, setBlogs] = useState([]);
+  const [expandedId, setExpandedId] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const blogsRef = ref(db, 'blogs');
+    const unsubscribe = onValue(blogsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const loadedBlogs = Object.entries(data).map(([id, blog]) => ({
+          id,
+          ...blog
+        }));
+        setBlogs(loadedBlogs.sort((a, b) => b.timestamp - a.timestamp));
+      } else {
+        setBlogs([]);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const toggleExpand = (id) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
+
   return (
     <div className="blogs-container">
       <div className="blogs-header">
         <h1>Blogs</h1>
         {user && (
-          <button className="write-blog-btn">Write a Blog</button>
+          <button className="write-blog-btn" onClick={() => navigate('/editor')}>
+            Write a Blog
+          </button>
         )}
       </div>
+
       <div className="blogs-list">
-        {mockBlogs.map(blog => (
-          <div key={blog.id} className="blog-card">
-            <div className="blog-card-header">
-              <h2 className="blog-title">{blog.title}</h2>
-              <span className="blog-date">{blog.date}</span>
+        {blogs.length === 0 ? (
+          <p>No blogs yet. Be the first to write one!</p>
+        ) : (
+          blogs.map((blog) => (
+            <div
+              key={blog.id}
+              className={`blog-card ${expandedId === blog.id ? 'expanded' : ''}`}
+              onClick={() => toggleExpand(blog.id)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="blog-card-header">
+                <h2 className="blog-title">{blog.title}</h2>
+                <span className="blog-date">
+                  {new Date(blog.timestamp).toLocaleDateString()}
+                </span>
+              </div>
+
+              <p className={`blog-excerpt ${expandedId === blog.id ? 'full' : ''}`}>
+                {expandedId === blog.id
+                  ? blog.content
+                  : blog.excerpt || blog.content.slice(0, 100) + '...'}
+              </p>
+
+              <div className="blog-meta">
+                <span className="blog-author">By {blog.author}</span>
+                <span className="blog-likes">👍 {blog.likes || 0}</span>
+              </div>
             </div>
-            <p className="blog-excerpt">{blog.excerpt}</p>
-            <div className="blog-meta">
-              <span className="blog-author">By {blog.author}</span>
-              <span className="blog-likes">👍 {blog.likes}</span>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
