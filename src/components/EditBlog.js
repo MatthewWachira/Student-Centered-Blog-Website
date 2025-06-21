@@ -54,37 +54,32 @@ export default function EditBlog({ user }) {
   };
 
   return (
-    <div className="blog-editor-outer-container">
-      <div className="blog-editor-container">
-        <h2>Edit Blog Post</h2>
-        {loading ? (
-          <div className="editor-message loading">Loading...</div>
-        ) : error ? (
-          <div className="editor-message error">{error}</div>
-        ) : (
-          <form className="blog-editor-form" onSubmit={handleSubmit}>
-            <input
-              className="blog-editor-title"
-              type="text"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              placeholder="Blog Title"
-              required
-            />
-            <textarea
-              className="blog-editor-content"
-              value={content}
-              onChange={e => setContent(e.target.value)}
-              placeholder="Write your blog content here..."
-              rows={10}
-              required
-            />
-            <button className="blog-editor-submit" type="submit">Save Changes</button>
-            {message && <div className="editor-message success">{message}</div>}
-            {error && <div className="editor-message error">{error}</div>}
-          </form>
-        )}
-      </div>
+    <div className="editor-container">
+      <h2>Edit Blog Post</h2>
+      {loading ? (
+        <div className="editor-message loading">Loading...</div>
+      ) : error ? (
+        <div className="editor-message error">{error}</div>
+      ) : (
+        <form className="editor-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Blog Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className="editor-input"
+          />
+          <textarea
+            placeholder="Write your blog content here..."
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            className="editor-textarea"
+            rows="10"
+          />
+          <button type="submit" className="editor-submit-btn">Save Changes</button>
+          {message && <p className="editor-message">{message}</p>}
+        </form>
+      )}
     </div>
   );
 }
