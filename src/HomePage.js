@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { auth } from './firebase';
 import './HomePage.css';
+import Footer from './components/Footer';
+import SearchBar from './components/SearchBar';
 
 const mockFeaturedBlogs = [
   {
@@ -23,26 +25,19 @@ const mockFeaturedBlogs = [
   }
 ];
 
-function HomePage({ loggedIn, onLogin, onLogout, user }) {
-  const handleLogoutClick = () => {
-    const confirmed = window.confirm('Are you sure you want to log out?');
-    if (confirmed) {
-      onLogout();
-    }
-  };
+function HomePage({ loggedIn, user }) {
+  const [search, setSearch] = useState('');
+  const filteredBlogs = mockFeaturedBlogs.filter(blog =>
+    blog.title.toLowerCase().includes(search.toLowerCase()) ||
+    blog.author.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="home-container">
       <header className="header">
         <div className="logo-title-container">
-          <img src="/StrathUniLogo.png" alt="Strathmore University Logo" className="logo" />
           <h1 className="title">Strathmore University Blog</h1>
         </div>
-        {loggedIn ? (
-          <button className="loginButton" onClick={handleLogoutClick}>Logout</button>
-        ) : (
-          <button className="loginButton" onClick={onLogin}>Login with Google</button>
-        )}
       </header>
 
       <section className="hero">
@@ -54,19 +49,25 @@ function HomePage({ loggedIn, onLogin, onLogout, user }) {
       </section>
 
       <main className="main">
+        <SearchBar value={search} onChange={setSearch} placeholder="Search by title or author..." />
         <section className="featured-blogs">
           <h3>Featured Blogs</h3>
           <div className="featured-list">
-            {mockFeaturedBlogs.map(blog => (
-              <div key={blog.id} className="featured-blog-card">
-                <h4>{blog.title}</h4>
-                <p><em>by {blog.author}</em></p>
-                <p>{blog.excerpt}</p>
-              </div>
-            ))}
+            {filteredBlogs.length === 0 ? (
+              <p style={{ color: '#fff', textAlign: 'center', width: '100%' }}>No matching blogs found. Please try a different title or author</p>
+            ) : (
+              filteredBlogs.map(blog => (
+                <div key={blog.id} className="featured-blog-card">
+                  <h4>{blog.title}</h4>
+                  <p><em>by {blog.author}</em></p>
+                  <p>{blog.excerpt}</p>
+                </div>
+              ))
+            )}
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

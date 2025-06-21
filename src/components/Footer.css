@@ -1,0 +1,139 @@
+.footer {
+  background: #003366; /* Strathmore blue */
+  color: #fff;
+  padding: 3.5rem 2rem 3rem 2rem;
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1.18rem;
+  min-height: 140px;
+  max-height: 200px;
+}
+
+.footer-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-left {
+  flex: 2 1 350px;
+  min-width: 250px;
+}
+
+.footer-site-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.footer-site-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.footer-copyright {
+  font-size: 0.98rem;
+  opacity: 0.85;
+  margin-top: .2rem;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: #ffcc00;
+}
+.footer-sep {
+  color: #fff;
+  opacity: 0.5;
+  font-size: 1.1rem;
+}
+
+.footer-right {
+  flex: 1 1 200px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.7rem;
+}
+.footer-contact {
+  font-size: 0.98rem;
+}
+.footer-social {
+  display: flex;
+  gap: 1.1rem;
+  font-size: 1.3rem;
+}
+.footer-social-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: inline-block;
+  margin: 1.1rem 1rem 0rem 0rem;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), filter 0.18s;
+  background-color: transparent;
+  border: none;
+  vertical-align: middle;
+}
+
+.footer-social-icon:hover {
+  transform: scale(1.18);
+  filter: brightness(1.2);
+}
+.footer-social-icon.youtube-icon {
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+  top: -5.8px;
+}
+
+.footer-bottom {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 700px) {
+  .footer-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .footer-left, .footer-right {
+    align-items: flex-start;
+    min-width: unset;
+    width: 100%;
+  }
+  .footer-right {
+    align-items: flex-start;
+  }
+  .footer-site-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  .footer-nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

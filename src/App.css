@@ -1,9 +1,83 @@
+/* --- APP GENERAL STYLES --- */
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+/* --- NAVIGATION STYLES --- */
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #02338d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-height: 70px;
+}
+
+/* LEFT SECTION (LOGO) */
+.nav-left {
+  flex: 0 0 auto;
+}
+
+.logo {
+  height: 48px;
+  width: auto;
+  max-height: 60px;
+  object-fit: contain;
+}
+
+/* CENTER SECTION (NAV LINKS) */
+.nav-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #ffcc00;
+}
+
+/* RIGHT SECTION (LOGIN/LOGOUT) */
+.nav-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.3rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 1rem;
+}
+
+.nav-btn:hover {
+  background: #005bb5;
+  color: #ffcc00;
+}
+
+/* --- OPTIONAL APP STYLES (Not nav-specific) --- */
+.logo {
+  height: 70vmin;
   pointer-events: none;
 }
 
