@@ -170,31 +170,25 @@ export default function UserProfile({ user }) {
                 {userBlogs
                   .sort((a, b) => b.timestamp - a.timestamp)
                   .map(post => {
-                    const isEditable = Date.now() - post.timestamp <= 4 * 60 * 60 * 1000;
                     return (
                       <li
                         key={post.id}
-                        className={`profile-post-item ${isEditable ? 'editable' : ''}`}
+                        className="profile-post-item"
                       >
                         <span className="profile-post-title">{post.title}</span>
                         <span className="profile-post-date">{new Date(post.timestamp).toLocaleDateString()}</span>
                         <span className="profile-post-excerpt">
                           {post.excerpt || post.content.slice(0, 80)}...
                         </span>
-                        {isEditable && (
-                          <>
-                            <button onClick={() => navigate(`/edit/${post.id}`)} className="edit-btn">Edit</button>
-                            <button onClick={() => handleDeletePost(post.id)} className="delete-btn">Delete</button>
-                          </>
-                        )}
+                        <button onClick={() => navigate(`/edit/${post.id}`)} className="edit-btn">Edit</button>
+                        <button onClick={() => handleDeletePost(post.id)} className="delete-btn">Delete</button>
                       </li>
                     );
                   })}
               </ul>
             ) : (
-              <p className="no-posts-msg">You haven’t written any blog posts yet.</p>
+              <p className="no-posts-msg">You haven’t written any blog posts yet.<br/>(Your published blogs will appear here.)</p>
             )}
-            {userBlogs.length > 0 && <p className="profile-note">(Your published blogs will appear here.)</p>}
           </div>
 
           <button className="delete-account-btn" onClick={handleDeleteAccount}>

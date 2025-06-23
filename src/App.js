@@ -28,7 +28,12 @@ function App() {
         setUser(null);
       }
     });
-    return () => unsubscribe();
+    // Expose handleLogin globally for use in HomePage
+    window.handleGlobalLogin = handleLogin;
+    return () => {
+      unsubscribe();
+      window.handleGlobalLogin = undefined;
+    };
   }, []);
 
   const handleLogin = async () => {

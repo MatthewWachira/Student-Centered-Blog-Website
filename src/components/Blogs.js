@@ -3,7 +3,7 @@ import './Blogs.css';
 import SearchBar from './SearchBar';
 import { ref, onValue, remove, update, set, child, push } from 'firebase/database';
 import { db } from '../firebase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Footer from './Footer';
 
 export default function Blogs({ user }) {
@@ -13,7 +13,10 @@ export default function Blogs({ user }) {
   const [likesInfo, setLikesInfo] = useState({});
   const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState('');
+  const [replyInputs, setReplyInputs] = useState({}); // { [commentId]: replyText }
+  const [replyingTo, setReplyingTo] = useState({}); // { [commentId]: true/false }
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const blogsRef = ref(db, 'blogs');
@@ -94,21 +97,90 @@ export default function Blogs({ user }) {
     setNewComment('');
   };
 
-  const handleDeleteComment = (blogId, commentId) => {
+  // Update: handleDeleteComment to accept a path array
+  const handleDeleteComment = (blogId, commentPathArr) => {
     if (window.confirm('Delete this comment?')) {
-      remove(ref(db, `comments/${blogId}/${commentId}`));
+      const path = ['comments', blogId, ...commentPathArr].join('/');
+      remove(ref(db, path));
     }
   };
 
-  const canEditOrDelete = (blog) => {
-    if (!user || blog.uid !== user.uid) return false;
-    const now = Date.now();
-    return now - blog.timestamp <= 40 * 60 * 1000;
+  // Add reply to a comment
+  const handleReplySubmit = async (e, blogId, commentId) => {
+    e.preventDefault();
+    const replyText = replyInputs[commentId];
+    if (!user || !replyText || !replyText.trim()) return;
+    const replyRef = push(ref(db, `comments/${blogId}/${commentId}/replies`));
+    await set(replyRef, {
+      uid: user.uid,
+      author: user.displayName || 'Anonymous',
+      content: replyText,
+      timestamp: Date.now(),
+    });
+    setReplyInputs((prev) => ({ ...prev, [commentId]: '' }));
+    setReplyingTo((prev) => ({ ...prev, [commentId]: false }));
   };
 
-  const filteredBlogs = blogs.filter((blog) =>
+  const canEditOrDelete = (blog) => {
+    return user && blog.uid === user.uid;
+  };
+
+  // Get sort/filter from query string
+  const query = new URLSearchParams(location.search);
+  const sort = query.get('filter');
+
+  // Compute like counts for all blogs
+  const blogsWithLikes = blogs.map(blog => ({
+    ...blog,
+    likeCount: likesInfo[blog.id] ? Object.keys(likesInfo[blog.id]).length : 0
+  }));
+
+  // Sort by most liked or latest if requested
+  let sortedBlogs = blogsWithLikes;
+  if (sort === 'popular') {
+    sortedBlogs = [...blogsWithLikes].sort((a, b) => b.likeCount - a.likeCount);
+  } else if (sort === 'latest') {
+    sortedBlogs = [...blogsWithLikes].sort((a, b) => b.timestamp - a.timestamp);
+  }
+
+  const filteredBlogs = sortedBlogs.filter((blog) =>
     blog.title.toLowerCase().includes(search.toLowerCase()) ||
     (blog.author && blog.author.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  // Update: renderComment to only allow replying to top-level comments
+  const renderComment = (blogId, commentId, c, depth = 0, pathArr = []) => (
+    <div className={`comment${depth > 0 ? ' reply-comment' : ''}`} key={commentId}>
+      <p><strong>{c.author}</strong>: {c.content}</p>
+      <div className="comment-actions-row">
+        {user?.uid === c.uid && (
+          <button className="delete-comment" onClick={(e) => { e.stopPropagation(); handleDeleteComment(blogId, [...pathArr, commentId]); }}>Delete</button>
+        )}
+        {depth === 0 && (
+          <button className="reply-btn" onClick={(e) => { e.stopPropagation(); setReplyingTo((prev) => ({ ...prev, [commentId]: !prev[commentId] })); }}>
+            Reply
+          </button>
+        )}
+      </div>
+      {depth === 0 && replyingTo[commentId] && (
+        <form className="reply-form" onSubmit={(e) => handleReplySubmit(e, blogId, commentId)}>
+          <input
+            type="text"
+            value={replyInputs[commentId] || ''}
+            onChange={(e) => setReplyInputs((prev) => ({ ...prev, [commentId]: e.target.value }))}
+            placeholder="Write a reply..."
+          />
+          <button type="submit">Post</button>
+        </form>
+      )}
+      {c.replies && (
+        <div className="replies-list">
+          {Object.entries(c.replies).map(([replyId, reply]) =>
+            renderComment(blogId, replyId, reply, depth + 1, [...pathArr, commentId, 'replies'])
+          )}
+        </div>
+      )}
+    </div>
   );
 
   return (
@@ -134,13 +206,31 @@ export default function Blogs({ user }) {
               const likeUsers = likesInfo[blogId] || {};
               const hasLiked = user && !!likeUsers[user.uid];
               const blogComments = comments[blogId] || {};
+              const commentCount = Object.keys(blogComments).length;
+              const likeCount = Object.keys(likeUsers).length;
+
+              // For scrolling to comments
+              const commentSectionId = `comments-${blogId}`;
+
+              const handleCommentIconClick = (e) => {
+                e.stopPropagation();
+                if (expandedId === blogId) {
+                  const el = document.getElementById(commentSectionId);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                  toggleExpand(blogId);
+                  setTimeout(() => {
+                    const el = document.getElementById(commentSectionId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 300);
+                }
+              };
 
               return (
                 <div
                   key={blogId}
                   className={`blog-card ${expandedId === blogId ? 'expanded' : ''}`}
                   onClick={() => toggleExpand(blogId)}
-                  style={{ width: expandedId === blogId ? '40%' : '36%' }}
                 >
                   {expandedId === blogId && (
                     <button
@@ -158,8 +248,11 @@ export default function Blogs({ user }) {
                     <div className="blog-avatar-author">
                       <div className="avatar" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem'}}>{blog.author?.[0] || '?'}</div>
                       <div>
-                        <div className="blog-title">{blog.title}</div>
-                        <div className="blog-date">{new Date(blog.timestamp).toLocaleDateString()}</div>
+                        <div className="blog-title main-title">{blog.title}</div>
+                        <div className="blog-meta-row">
+                          <span className="blog-date">{new Date(blog.timestamp).toLocaleDateString()}</span>
+                          <span className="blog-author">By {blog.author}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -168,7 +261,21 @@ export default function Blogs({ user }) {
                     <p className={`blog-excerpt ${expandedId === blogId ? 'full' : ''}`}>
                       {expandedId === blogId ? blog.content : blog.excerpt || blog.content.slice(0, 100) + '...'}
                     </p>
+                  </div>
 
+                  <div className="blog-card-actions">
+                    <button
+                      className={`like-button ${hasLiked ? 'liked' : ''}`}
+                      onClick={(e) => handleLikeToggle(e, blogId)}
+                    >
+                      👍 {likeCount}
+                    </button>
+                    <button
+                      className="comment-count-btn"
+                      onClick={handleCommentIconClick}
+                    >
+                      💬 {commentCount}
+                    </button>
                     {user && blog.uid === user.uid && (
                       <div className="blog-actions">
                         <button className="edit-blog-btn" onClick={(e) => { e.stopPropagation(); navigate(`/edit/${blogId}`); }}>Edit</button>
@@ -181,17 +288,11 @@ export default function Blogs({ user }) {
 
                   {expandedId === blogId && (
                     <>
-                      <div className="comments-section" onClick={(e) => e.stopPropagation()}>
+                      <div className="comments-section" id={commentSectionId} onClick={(e) => e.stopPropagation()}>
                         <h4>Comments</h4>
-                        {Object.entries(blogComments).map(([commentId, c]) => (
-                          <div className="comment" key={commentId}>
-                            <p><strong>{c.author}</strong>: {c.content}</p>
-                            {user?.uid === c.uid && (
-                              <button className="delete-comment" onClick={(e) => { e.stopPropagation(); handleDeleteComment(blogId, commentId); }}>Delete</button>
-                            )}
-                          </div>
-                        ))}
-
+                        {Object.entries(blogComments).map(([commentId, c]) =>
+                          renderComment(blogId, commentId, c)
+                        )}
                         {user && (
                           <form onSubmit={(e) => handleCommentSubmit(e, blogId)} className="comment-form">
                             <input
@@ -202,28 +303,6 @@ export default function Blogs({ user }) {
                             />
                             <button type="submit">Post</button>
                           </form>
-                        )}
-                      </div>
-
-                      <div className="blog-meta">
-                        <span className="blog-author">By {blog.author}</span>
-
-                        <button
-                          className={`like-button ${hasLiked ? 'liked' : ''}`}
-                          onClick={(e) => handleLikeToggle(e, blogId)}
-                        >
-                          👍 {Object.keys(likeUsers).length}
-                        </button>
-
-                        {blog.uid === user?.uid && Object.keys(likeUsers).length > 0 && (
-                          <div className="likes-list">
-                            <strong>Liked by:</strong>
-                            <ul>
-                              {Object.values(likeUsers).map((name, idx) => (
-                                <li key={idx}>{name}</li>
-                              ))}
-                            </ul>
-                          </div>
                         )}
                       </div>
                     </>

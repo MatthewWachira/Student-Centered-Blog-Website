@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 function HomePage({ loggedIn, user }) {
   const [blogs, setBlogs] = useState([]);
   const [search, setSearch] = useState('');
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [likesInfo, setLikesInfo] = useState({}); // <-- Add likesInfo state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,12 +26,28 @@ function HomePage({ loggedIn, user }) {
     return () => unsubscribe();
   }, []);
 
+  // Fetch real-time likes info
+  useEffect(() => {
+    const likesRef = ref(db, 'likes');
+    const unsubscribe = onValue(likesRef, snapshot => {
+      setLikesInfo(snapshot.val() || {});
+    });
+    return () => unsubscribe();
+  }, []);
+
   const filteredBlogs = blogs.filter(blog =>
     blog.title.toLowerCase().includes(search.toLowerCase()) ||
     (blog.author && blog.author.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const trendingBlogs = [...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 3);
+  // Trending blogs: top 3 by real-time like count
+  const trendingBlogs = [...blogs]
+    .map(blog => ({
+      ...blog,
+      likeCount: likesInfo[blog.id] ? Object.keys(likesInfo[blog.id]).length : 0
+    }))
+    .sort((a, b) => b.likeCount - a.likeCount)
+    .slice(0, 3);
 
   return (
     <div className="home-container">
@@ -45,8 +63,24 @@ function HomePage({ loggedIn, user }) {
         <button onClick={() => navigate('/blogs?filter=latest')}>🆕 Latest Posts</button>
         <button onClick={() => navigate('/blogs?filter=popular')}>🔥 Most Liked</button>
         <button onClick={() => navigate('/blogs?filter=campus')}>🏫 Campus Life</button>
-        <button onClick={() => navigate('/editor')}>✍️ Start Writing</button>
+        <button onClick={() => {
+          if (user) {
+            navigate('/editor');
+          } else {
+            setShowLoginPrompt(true);
+          }
+        }}>
+          ✍️ Start Writing
+        </button>
       </section>
+      {showLoginPrompt && (
+        <div className="login-prompt-banner">
+          <span>
+            Please <button className="login-link" onClick={() => window.handleGlobalLogin && window.handleGlobalLogin()}>log in</button> to write a blog.
+          </span>
+          <button className="close-login-prompt" onClick={() => setShowLoginPrompt(false)}>&times;</button>
+        </div>
+      )}
 
       <main className="main">
         <section className="featured-blogs">
@@ -69,13 +103,19 @@ function HomePage({ loggedIn, user }) {
 
         <section className="trending-blogs">
           <h3>🔥 Trending</h3>
-          {trendingBlogs.map(blog => (
-            <div className="trending-card" key={blog.id}>
-              <h4>{blog.title}</h4>
-              <p><em>By {blog.author}</em></p>
-              <p>👍 {blog.likes || 0}</p>
-            </div>
-          ))}
+          <div className="trending-list">
+            {trendingBlogs.length === 0 ? (
+              <p>No trending blogs yet.</p>
+            ) : (
+              trendingBlogs.map(blog => (
+                <div className="trending-card" key={blog.id}>
+                  <h4>{blog.title}</h4>
+                  <p><em>By {blog.author}</em></p>
+                  <p>👍 {blog.likeCount}</p>
+                </div>
+              ))
+            )}
+          </div>
         </section>
 
         <section className="testimonial">
