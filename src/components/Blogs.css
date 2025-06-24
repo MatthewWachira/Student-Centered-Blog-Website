@@ -43,19 +43,22 @@
 .write-blog-btn:hover {
   background: #0060cc;
 }
-
 .blogs-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* was 300px */
+  gap: 2.7rem; /* was 2rem */
   margin-top: 2rem;
-  align-items: stretch;
+  
+  grid-template-columns: repeat(3, 1fr);
+
 }
+
+
 
 .blog-card {
   background: #fff;
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1rem; /* was 1.5rem */
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
   width: 100%;

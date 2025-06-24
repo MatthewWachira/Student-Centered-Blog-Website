@@ -115,7 +115,7 @@ export default function UserProfile({ user }) {
               <img src={user.photoURL} alt="Profile" className="profile-avatar" />
             ) : (
               <div className="profile-avatar placeholder">
-                {user.displayName ? user.displayName[0] : '?'}
+               {user.displayName ? user.displayName.charAt(0).toUpperCase() : '?'}
               </div>
             )}
             <div className="profile-info">

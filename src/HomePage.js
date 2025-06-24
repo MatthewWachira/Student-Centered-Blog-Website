@@ -1,4 +1,3 @@
-// HomePage.js
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import Footer from './components/Footer';
@@ -11,7 +10,7 @@ function HomePage({ loggedIn, user }) {
   const [blogs, setBlogs] = useState([]);
   const [search, setSearch] = useState('');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [likesInfo, setLikesInfo] = useState({}); // <-- Add likesInfo state
+  const [likesInfo, setLikesInfo] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +25,6 @@ function HomePage({ loggedIn, user }) {
     return () => unsubscribe();
   }, []);
 
-  // Fetch real-time likes info
   useEffect(() => {
     const likesRef = ref(db, 'likes');
     const unsubscribe = onValue(likesRef, snapshot => {
@@ -40,13 +38,22 @@ function HomePage({ loggedIn, user }) {
     (blog.author && blog.author.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // Trending blogs: top 3 by real-time like count
   const trendingBlogs = [...blogs]
     .map(blog => ({
       ...blog,
       likeCount: likesInfo[blog.id] ? Object.keys(likesInfo[blog.id]).length : 0
     }))
     .sort((a, b) => b.likeCount - a.likeCount)
+    .slice(0, 3);
+
+  const contributorCounts = blogs.reduce((acc, blog) => {
+    if (!acc[blog.author]) acc[blog.author] = 0;
+    acc[blog.author]++;
+    return acc;
+  }, {});
+
+  const topContributors = Object.entries(contributorCounts)
+    .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
   return (
@@ -73,6 +80,7 @@ function HomePage({ loggedIn, user }) {
           ✍️ Start Writing
         </button>
       </section>
+
       {showLoginPrompt && (
         <div className="login-prompt-banner">
           <span>
@@ -89,9 +97,8 @@ function HomePage({ loggedIn, user }) {
             {filteredBlogs.length === 0 ? (
               <p>No matching blogs found. Please try a different title or author</p>
             ) : (
-              filteredBlogs.map(blog => (
+              filteredBlogs.slice(0, 3).map(blog => (
                 <div key={blog.id} className="featured-blog-card">
-                  {blog.thumbnail && <img src={blog.thumbnail} alt={blog.title} className="blog-thumbnail" />}
                   <h4>{blog.title}</h4>
                   <p><em>by {blog.author}</em></p>
                   <p>{blog.excerpt || blog.content.slice(0, 100) + '...'}</p>
@@ -124,21 +131,12 @@ function HomePage({ loggedIn, user }) {
           </blockquote>
         </section>
 
-        <section className="events-section">
-          <h3>📆 Upcoming Events</h3>
-          <ul className="event-list">
-            <li><strong>Career Fair</strong> – June 18</li>
-            <li><strong>AI in Africa Talk</strong> – June 22</li>
-            <li><strong>Hackathon</strong> – July 3</li>
-          </ul>
-        </section>
-
         <section className="top-contributors">
-          <h3>🏆 Top Contributors</h3>
+          <h3>🏆 Top Contributors This Month</h3>
           <ul>
-            <li>Mary Wanjiku – 12 posts</li>
-            <li>John Kinoti – 9 posts</li>
-            <li>Brian Kiptoo – 7 posts</li>
+            {topContributors.map(([author, count]) => (
+              <li key={author}>{author} – {count} posts</li>
+            ))}
           </ul>
         </section>
 
