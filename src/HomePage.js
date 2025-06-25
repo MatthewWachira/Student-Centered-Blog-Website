@@ -108,26 +108,29 @@ function HomePage({ loggedIn, user }) {
           </div>
         </section>
 
-        <section className="trending-blogs">
-          <h3>🔥 Trending</h3>
-          <div className="trending-list">
-            {trendingBlogs.length === 0 ? (
-              <p>No trending blogs yet.</p>
-            ) : (
-              trendingBlogs.map(blog => (
-                <div className="trending-card" key={blog.id}>
-                  <h4>{blog.title}</h4>
-                  <p><em>By {blog.author}</em></p>
-                  <p>👍 {blog.likeCount}</p>
-                </div>
-              ))
-            )}
+        <section className="trending-blogs-with-image">
+          <div className="trending-blogs-content">
+            <h3>🔥 Trending</h3>
+            <div className="trending-list">
+              {trendingBlogs.length === 0 ? (
+                <p>No trending blogs yet.</p>
+              ) : (
+                trendingBlogs.map(blog => (
+                  <div className="trending-card" key={blog.id}>
+                    <h4>{blog.title}</h4>
+                    <p><em>By {blog.author}</em></p>
+                    <p>👍 {blog.likeCount}</p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
+          <img src="/StrathUniPic1.jpeg" alt="Strathmore University" className="trending-side-image" />
         </section>
 
         <section className="testimonial">
           <blockquote>
-            “Writing here helped me land my first internship.” – Brian K., BIT student
+            “Writing here helped me land my first internship.” – Brian K., BBIT student
           </blockquote>
         </section>
 

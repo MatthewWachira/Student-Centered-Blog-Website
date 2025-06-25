@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ref, get, update } from 'firebase/database';
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './BlogEditor.css';
 
 export default function EditBlog({ user }) {
@@ -11,6 +12,8 @@ export default function EditBlog({ user }) {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +27,7 @@ export default function EditBlog({ user }) {
           const data = snapshot.val();
           setTitle(data.title || '');
           setContent(data.content || '');
+          setImageUrl(data.imageUrl || '');
         } else {
           setError('Blog post not found.');
         }
@@ -35,6 +39,16 @@ export default function EditBlog({ user }) {
     fetchBlog();
   }, [postId]);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+    } else {
+      setImageFile(null);
+      alert('Please select a valid image file.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -44,8 +58,14 @@ export default function EditBlog({ user }) {
       return;
     }
     try {
+      let uploadedImageUrl = imageUrl;
+      if (imageFile) {
+        const imgRef = storageRef(storage, `blogImages/${imageFile.name}_${Date.now()}`);
+        await uploadBytes(imgRef, imageFile);
+        uploadedImageUrl = await getDownloadURL(imgRef);
+      }
       const blogRef = ref(db, `blogs/${postId}`);
-      await update(blogRef, { title, content });
+      await update(blogRef, { title, content, imageUrl: uploadedImageUrl });
       setMessage('Blog updated successfully!');
       setTimeout(() => navigate('/blogs'), 1200);
     } catch (err) {
@@ -76,6 +96,17 @@ export default function EditBlog({ user }) {
             className="editor-textarea"
             rows="10"
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="editor-input"
+          />
+          {imageUrl && (
+            <div style={{ margin: '1rem 0' }}>
+              <img src={imageUrl} alt="Current blog visual" style={{ maxWidth: '100%', maxHeight: 220, borderRadius: 10 }} />
+            </div>
+          )}
           <button type="submit" className="editor-submit-btn">Save Changes</button>
           {message && <p className="editor-message">{message}</p>}
         </form>

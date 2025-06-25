@@ -380,3 +380,18 @@
   transform: translateY(-2px) scale(1.03);
 }
 
+.expanded-blog-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1.2rem 0 1.5rem 0;
+}
+
+.expanded-blog-image {
+  max-width: 90%;
+  max-height: 320px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+

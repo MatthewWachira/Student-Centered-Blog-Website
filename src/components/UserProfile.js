@@ -54,6 +54,37 @@ export default function UserProfile({ user }) {
   const handleUpdateName = async () => {
     try {
       await updateProfile(auth.currentUser, { displayName });
+      // Update all blogs and comments with new display name
+      // 1. Update blogs
+      const blogsRef = ref(db, 'blogs');
+      onValue(blogsRef, async (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const updates = {};
+          Object.entries(data).forEach(([id, blog]) => {
+            if (blog.uid === user.uid && blog.author !== displayName) {
+              updates[`blogs/${id}/author`] = displayName;
+            }
+            // Update comments for this blog
+            if (blog.comments) {
+              const updateCommentAuthors = (commentsObj, pathArr = []) => {
+                Object.entries(commentsObj).forEach(([commentId, comment]) => {
+                  if (comment.uid === user.uid && comment.author !== displayName) {
+                    updates[`comments/${id}/${[...pathArr, commentId].join('/')}/author`] = displayName;
+                  }
+                  if (comment.replies) {
+                    updateCommentAuthors(comment.replies, [...pathArr, commentId, 'replies']);
+                  }
+                });
+              };
+              updateCommentAuthors(blog.comments);
+            }
+          });
+          if (Object.keys(updates).length > 0) {
+            await update(ref(db), updates);
+          }
+        }
+      }, { onlyOnce: true });
       alert('Name updated!');
     } catch (error) {
       alert('Failed to update name');

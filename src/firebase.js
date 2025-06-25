@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 
 // ✅ Your Firebase project config
 const firebaseConfig = {
@@ -18,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getDatabase(app);
+const storage = getStorage(app);
 
 // ✅ Optional: Customize Google Sign-in prompt
 provider.setCustomParameters({
@@ -25,4 +27,4 @@ provider.setCustomParameters({
 });
 
 // ✅ Export your Firebase modules
-export { auth, provider, db };
+export { auth, provider, db, storage };

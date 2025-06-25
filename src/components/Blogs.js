@@ -257,6 +257,12 @@ export default function Blogs({ user }) {
                     </div>
                   </div>
 
+                  {expandedId === blogId && blog.imageUrl && (
+                    <div className="expanded-blog-image-container">
+                      <img src={blog.imageUrl} alt="Blog visual" className="expanded-blog-image" />
+                    </div>
+                  )}
+
                   <div className="blog-body-row">
                     <p className={`blog-excerpt ${expandedId === blogId ? 'full' : ''}`}>
                       {expandedId === blogId ? blog.content : blog.excerpt || blog.content.slice(0, 100) + '...'}

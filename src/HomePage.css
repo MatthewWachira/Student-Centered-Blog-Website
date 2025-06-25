@@ -124,6 +124,63 @@
   color: #002b59;
 }
 
+.trending-blogs-with-image {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 64, 128, 0.05);
+  margin-bottom: 2rem;
+}
+
+.trending-blogs-content {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.trending-side-image {
+  flex: 1 1 0;
+  width: 100%;
+  height: auto;
+  min-height: 320px;
+  min-width: 0;
+  border-radius: 12px 12px 12px 12px;
+  object-fit: cover;
+  box-shadow: none;
+  margin-left: 0rem;
+  margin-right: 0;
+  align-self: stretch;
+  max-width: none;
+}
+
+@media (max-width: 1100px) {
+  .trending-side-image {
+    max-width: 380px;
+    height: 220px;
+    margin-left: 1.2rem;
+    margin-right: 0.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .trending-blogs-with-image {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+  .trending-side-image {
+    width: 100%;
+    min-height: 180px;
+    border-radius: 0 0 12px 12px;
+    margin: 1rem 0 0 0;
+  }
+}
+
 .testimonial blockquote {
   font-style: italic;
   border-left: 4px solid #0073e6;

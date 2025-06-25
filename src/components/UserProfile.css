@@ -120,8 +120,8 @@
 
 .profile-post-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.2rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -136,6 +136,9 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-post-item:hover {
@@ -162,18 +165,24 @@
 
 .edit-btn,
 .delete-btn {
-  background: #e6f0ff;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+  background: transparent;
+  border: 1px solid #004080;
+  color: #004080;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  font-size: 0.95rem;
+  min-width: 90px;
+  margin-top: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+  box-sizing: border-box;
 }
 
-.edit-btn:hover {
-  background: #cce0ff;
+.edit-btn:hover,
+.delete-btn:hover {
+  background: #004080;
+  color: #fff;
 }
 
 .delete-btn {
