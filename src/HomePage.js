@@ -62,9 +62,7 @@ function HomePage({ loggedIn, user }) {
         <h1 className="title">Strathmore University Blog</h1>
       </header>
 
-      <section className="announcement-banner">
-        📢 <strong>New:</strong> You will soon be able to upload pictures with your posts!
-      </section>
+    
 
       <section className="quick-nav">
         <button onClick={() => navigate('/blogs?filter=latest')}>🆕 Latest Posts</button>

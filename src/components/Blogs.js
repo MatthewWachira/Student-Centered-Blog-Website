@@ -1,3 +1,4 @@
+//Blogs.js
 import React, { useEffect, useState } from 'react';
 import './Blogs.css';
 import SearchBar from './SearchBar';

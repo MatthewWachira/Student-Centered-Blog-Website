@@ -1,0 +1,35 @@
+.editor-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.editor-form input[type="text"],
+.editor-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.editor-form input[type="file"] {
+  margin: 1rem 0;
+}
+
+.editor-form button {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.editor-form button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}

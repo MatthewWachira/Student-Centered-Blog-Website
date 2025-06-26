@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAwLRM4PsO3mz8MoJeyz849s6gKWAVlEwg",
   authDomain: "strathmoreblog.firebaseapp.com",
   projectId: "strathmoreblog",
-  storageBucket: "strathmoreblog.appspot.com",
+  storageBucket: "strathmoreblog.firebasestorage.app",
   messagingSenderId: "828059595871",
   appId: "1:828059595871:web:28390489ad60ba3cca57ea",
   measurementId: "G-1FK6V8GQPW"
