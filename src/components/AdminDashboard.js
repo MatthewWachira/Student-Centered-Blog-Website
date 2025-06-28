@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { ref, onValue, remove, update } from 'firebase/database';
 import ConfirmModal from './ConfirmModal';
+import BlogCard from './BlogCard';
 import './AdminDashboard.css';
 
 export default function AdminDashboard({ currentUser }) {
@@ -70,7 +71,17 @@ export default function AdminDashboard({ currentUser }) {
           return (
             <div className="flag-card" key={fid}>
               <p><strong>Reason:</strong> {flag.reason}</p>
-              <p><strong>Post Title:</strong> {post?.title || '—'}</p>
+              {post ? (
+                <BlogCard
+                  blog={{ ...post, id: flag.postId }}
+                  user={currentUser}
+                  likesInfo={{}}
+                  comments={{}}
+                  isExpanded={false}
+                />
+              ) : (
+                <p><strong>Post Title:</strong> {post?.title || '—'}</p>
+              )}
               <p><strong>Author:</strong> {author?.displayName || 'Unknown'} {isBlocked && <span className="blocked-tag">(Blocked)</span>}</p>
               <div className="flag-actions">
                 <button onClick={() => handleRemovePost(flag.postId)}>🗑 Remove Post</button>

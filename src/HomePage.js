@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import Footer from './components/Footer';
+import BlogCard from './components/BlogCard';
 import { ref, onValue } from 'firebase/database';
 import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage({ loggedIn, user }) {
   const [blogs, setBlogs] = useState([]);
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [likesInfo, setLikesInfo] = useState({});
-  const [expandedId, setExpandedId] = useState(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [expandedBlogId, setExpandedBlogId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -52,10 +53,6 @@ function HomePage({ loggedIn, user }) {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
     <div className="home-container">
       <header className="header">
@@ -63,17 +60,16 @@ function HomePage({ loggedIn, user }) {
       </header>
 
       <section className="start-writing-cta">
-  <button onClick={() => {
-    if (user) {
-      navigate('/editor');
-    } else {
-      setShowLoginPrompt(true);
-    }
-  }}>
-    ✍️ Start Writing Your Blog
-  </button>
-</section>
-
+        <button onClick={() => {
+          if (user) {
+            navigate('/editor');
+          } else {
+            setShowLoginPrompt(true);
+          }
+        }}>
+          ✍️ Start Writing Your Blog
+        </button>
+      </section>
 
       {showLoginPrompt && (
         <div className="login-prompt-banner">
@@ -89,57 +85,60 @@ function HomePage({ loggedIn, user }) {
           <h3>🌟 Featured Blogs</h3>
           <div className="featured-list">
             {blogsWithLikes.slice(0, 3).map(blog => (
-              <div key={blog.id}
-                   className={`featured-blog-card ${expandedId === blog.id ? 'expanded' : ''}`}
-                   onClick={() => toggleExpand(blog.id)}>
-                <h4>{blog.title}</h4>
-                <p><em>by {blog.author}</em></p>
-                <p className="blog-snippet">
-                  {expandedId === blog.id ? blog.content : (blog.excerpt || blog.content.slice(0, 100) + '...')}
-                </p>
+              <BlogCard
+                key={blog.id}
+                blog={blog}
+                user={user}
+                likesInfo={likesInfo}
+                comments={{}}
+                expanded={expandedBlogId === blog.id}
+                onExpand={() => setExpandedBlogId(blog.id)}
+                onCloseExpand={() => setExpandedBlogId(null)}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="top-contributors">
+          <h3>🏆 Top Contributors This Month</h3>
+          <div className="contributors-grid">
+            {topContributors.map(([author, count], idx) => (
+              <div
+                key={author}
+                className={`contributor-card${idx === 0 ? ' top-contributor-highlight' : ''}`}
+                style={{ cursor: "default", pointerEvents: "none" }}
+              >
+                <div className="contributor-avatar">{author[0]?.toUpperCase()}</div>
+                <div className="contributor-info">
+                  <h4>{author}</h4>
+                  <p>{count} post{count > 1 ? 's' : ''}</p>
+                  {idx === 0 && <span className="top-badge">#1</span>}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
- <section className="top-contributors">
-          <h3>🏆 Top Contributors This Month</h3>
-          <div className="contributors-grid">
-            {topContributors.map(([author, count]) => (
-              <div key={author} className="contributor-card">
-                <div className="contributor-avatar">{author[0]?.toUpperCase()}</div>
-                <div className="contributor-info">
-                  <h4>{author}</h4>
-                  <p>{count} post{count > 1 ? 's' : ''}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-        
-        <section className="trending-blogs-with-image">
-          <div className="trending-blogs-content">
+        <section className="trending-blogs-with-image" style={{ alignItems: 'center' }}>
+          <div className="trending-blogs-content" style={{ width: '100%' }}>
             <h3>🔥 Trending</h3>
-            <div className="trending-list">
+            <div className="trending-list" style={{ justifyContent: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {trendingBlogs.map(blog => (
-                <div className={`trending-card ${expandedId === blog.id ? 'expanded' : ''}`} key={blog.id}
-                     onClick={() => toggleExpand(blog.id)}>
-                  <h4>{blog.title}</h4>
-                  <p><em>By {blog.author}</em></p>
-                  <p className="blog-snippet">
-                    {expandedId === blog.id ? blog.content : (blog.excerpt || blog.content.slice(0, 100) + '...')}
-                  </p>
-                  <p>👍 {blog.likeCount}</p>
-                </div>
+                <BlogCard
+                  key={blog.id}
+                  blog={blog}
+                  user={user}
+                  likesInfo={likesInfo}
+                  comments={{}}
+                  expanded={expandedBlogId === blog.id}
+                  onExpand={() => setExpandedBlogId(blog.id)}
+                  onCloseExpand={() => setExpandedBlogId(null)}
+                />
               ))}
             </div>
           </div>
           <img src="/StrathUniPic1.jpeg" alt="Strathmore University" className="trending-side-image" />
         </section>
-
-      
-
-      
       </main>
 
       <Footer />
