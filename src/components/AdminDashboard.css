@@ -1,0 +1,46 @@
+/* src/components/AdminDashboard.css */
+.admin-dashboard {
+  max-width: 1000px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+}
+
+.flag-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 0.8rem 0;
+  padding: 1rem;
+}
+
+.flag-actions button {
+  background: #004080;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  margin-right: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.flag-actions button:hover {
+  background: #002c60;
+}
+
+.blocked-tag {
+  background: #e53935;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.analytics p {
+  margin: 0.4rem 0;
+}

@@ -1,0 +1,238 @@
+.blog-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, width 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.blog-card.expanded {
+  transform: scale(1.02);
+  width: 120%;
+  z-index: 1;
+}
+
+.blog-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.blog-avatar-author {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #004080;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.blog-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #002b59;
+}
+
+.blog-meta-row {
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.blog-body-row {
+  margin-top: 0.5rem;
+}
+
+.blog-excerpt {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.blog-excerpt.full {
+  white-space: normal;
+}
+
+.blog-card-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  border-top: 1px solid #eee;
+  padding-top: 0.8rem;
+}
+
+.like-button,
+.comment-count-btn,
+.flag-btn,
+.edit-blog-btn,
+.delete-blog-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #004080;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.like-button:hover,
+.comment-count-btn:hover,
+.flag-btn:hover,
+.edit-blog-btn:hover,
+.delete-blog-btn:hover {
+  background-color: #f0f8ff;
+}
+
+.like-button.liked {
+  color: #e91e63;
+  font-weight: bold;
+}
+
+.blog-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.comments-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.comment-form {
+  display: flex;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.comment-form button {
+  padding: 0.5rem 1rem;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.comment {
+  margin-top: 0.75rem;
+  background: #f9f9f9;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+.login-to-comment {
+  margin-top: 0.5rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* Flag Modal */
+.flag-modal-overlay,
+.login-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.flag-modal,
+.login-prompt {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.flag-modal h4,
+.login-prompt p {
+  margin-bottom: 1rem;
+}
+
+.flag-modal select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.modal-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+  background: #004080;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background: #ccc;
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #777;
+}
+
+.expanded-blog-image-container {
+  margin-top: 0.75rem;
+}
+
+.expanded-blog-image {
+  width: 100%;
+  border-radius: 10px;
+  max-height: 300px;
+  object-fit: cover;
+}

@@ -1,59 +1,165 @@
+
 {
-  "users": {
-    "user_001": {
-      "email": "alice@strathmore.edu",
-      "displayName": "Alice Mwangi",
-      "role": "student"
-    },
-    "user_002": {
-      "email": "bob@strathmore.edu",
-      "displayName": "Bob Otieno",
-      "role": "student"
-    }
+"users": {
+  "wkbAdMZwVeNWAIqhlo6xiKq0m1x2": {
+    "uid": "wkbAdMZwVeNWAIqhlo6xiKq0m1x2",
+    "displayName": "Hetvi Barot",
+    "email": "hetvi.barot@strathmore.edu",
+    "isAdmin": true
   },
-  "blogPosts": {
-    "post_001": {
-      "authorId": "user_001",
-      "content": "This is Alice's first blog post!",
-      "dateCreated": "2025-06-18T10:00:00Z"
+  "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": {
+    "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2",
+    "displayName": "Matthew Wachira",
+    "email": "matthew.wachira@strathmore.edu",
+    "isAdmin": true
+  }
+},
+
+  "blogs": {
+    "-OT8oC705nV3_Ll7Jz67": {
+      "author": "Hetvi Barot",
+      "authorEmail": "hetvi.barot@strathmore.edu",
+      "content": "haha",
+      "likes": 0,
+      "timestamp": 1750363853313,
+      "title": "hello",
+      "uid": "8a4IF6vWFnWJ7U1q9OqRKyhaMjY2"
     },
-    "post_002": {
-      "authorId": "user_002",
-      "content": "Hello from Bob!",
-      "dateCreated": "2025-06-19T11:30:00Z"
+    "-OTRXY99qvapbT_pzIxx": {
+      "author": "Matthew",
+      "authorEmail": "matthew.wachira@strathmore.edu",
+      "content": "hey",
+      "imageUrl": "",
+      "likes": 0,
+      "timestamp": 1750677992137,
+      "title": "blog",
+      "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+    },
+    "-OTSWqvEComix_ZXBli3": {
+      "author": "Matthew",
+      "authorEmail": "matthew.wachira@strathmore.edu",
+      "content": "Another banger coming...",
+      "excerpt": "Another banger coming...",
+      "tags": [
+        "#Mystery"
+      ],
+      "timestamp": 1750694588102,
+      "title": "Update",
+      "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+    },
+    "-OTT0LKNe6K11IcYyu-r": {
+      "author": "Matthew",
+      "authorEmail": "matthew.wachira@strathmore.edu",
+      "content": "Vlogs comming soon",
+      "excerpt": "Vlogs comming soon",
+      "tags": [
+        "#Entertainment #fyp"
+      ],
+      "timestamp": 1750702843181,
+      "title": "Monday, 23rd June",
+      "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+    },
+    "-OTlVeXCHcXZI43Gyjkv": {
+      "author": "Matthew",
+      "authorEmail": "matthew.wachira@strathmore.edu",
+      "content": "Guess the movie",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/strathmoreblog.firebasestorage.app/o/blogImages%2Fmurph.jpg_1751029813555?alt=media&token=0884ade5-64b9-4e9f-aa47-63da385d4eb9",
+      "timestamp": 1751029819072,
+      "title": "First Blog pic",
+      "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
     }
   },
   "comments": {
-    "comment_001": {
-      "postId": "post_001",
-      "userId": "user_002",
-      "content": "Great post, Alice!"
+    "-OT8oC705nV3_Ll7Jz67": {
+      "-OTSm6MP6q2BKSv1PuGe": {
+        "author": "Matthew Wachira",
+        "content": "Sheesh. This the first Strath blog!!!🤯",
+        "timestamp": 1750698849749,
+        "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+      }
     },
-    "comment_002": {
-      "postId": "post_002",
-      "userId": "user_001",
-      "content": "Thanks Bob!"
+    "-OTBFJG97ofoCWtisGFJ": {
+      "-OTIxkc-uJEzdhUVtBXP": {
+        "author": "Hetvi Barot",
+        "content": "wowww!",
+        "timestamp": 1750534131499,
+        "uid": "wkbAdMZwVeNWAIqhlo6xiKq0m1x2"
+      }
+    },
+    "-OTSWqvEComix_ZXBli3": {
+      "-OTSxll2GL3UOxB4jZV5": {
+        "author": "Matthew Wachira",
+        "content": "When bro??",
+        "replies": {
+          "-OTSz9_jvT625XaPTX8z": {
+            "author": "Matthew Wachira",
+            "content": "Soon",
+            "timestamp": 1750702270800,
+            "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+          },
+          "-OTT-KlCouIhlAfoE__m": {
+            "author": "Matthew Wachira",
+            "content": "We need it asap!!!",
+            "timestamp": 1750702578734,
+            "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+          }
+        },
+        "timestamp": 1750701906980,
+        "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+      },
+      "-OTT-vQXiiJLCc70F3x2": {
+        "author": "Matthew Wachira",
+        "content": "Hey",
+        "timestamp": 1750702732982,
+        "uid": "0bXfQYEJ7PgBgMSK4JlPByhiOmg2"
+      }
     }
   },
   "likes": {
-    "like_001": {
-      "postId": "post_001",
-      "userId": "user_002"
+    "-OT8oC705nV3_Ll7Jz67": {
+      "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": "Matthew Wachira",
+      "wkbAdMZwVeNWAIqhlo6xiKq0m1x2": "Hetvi Barot"
+    },
+    "-OTRXY99qvapbT_pzIxx": {
+      "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": "Matthew"
+    },
+    "-OTSWqvEComix_ZXBli3": {
+      "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": "Matthew",
+      "wkbAdMZwVeNWAIqhlo6xiKq0m1x2": "Hetvi Barot"
+    },
+    "-OTT0LKNe6K11IcYyu-r": {
+      "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": "Matthew"
+    },
+    "-OTlVeXCHcXZI43Gyjkv": {
+      "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": "Matt"
     }
   },
   "flags": {
     "flag_001": {
-      "postId": "post_002",
-      "flaggedById": "user_001",
-      "reason": "Spam or inappropriate content",
-      "dateFlagged": "2025-06-19T12:00:00Z"
+      "dateFlagged": "2025-06-19T12:00:00Z",
+      "flaggedById": "wkbAdMZwVeNWAIqhlo6xiKq0m1x2",
+      "postId": "-OTRXY99qvapbT_pzIxx",
+      "reason": "Spam or inappropriate content"
     }
   },
   "notifications": {
     "notification_001": {
-      "recipientId": "user_001",
+      "dateSent": "2025-06-19T12:05:00Z",
       "message": "Bob liked your post",
-      "dateSent": "2025-06-19T12:05:00Z"
+      "recipientId": "wkbAdMZwVeNWAIqhlo6xiKq0m1x2"
+    }
+  },
+  "userLikes": {
+    "0bXfQYEJ7PgBgMSK4JlPByhiOmg2": {
+      "-OT8oC705nV3_Ll7Jz67": true,
+      "-OTRXY99qvapbT_pzIxx": true,
+      "-OTSWqvEComix_ZXBli3": true,
+      "-OTT0LKNe6K11IcYyu-r": true,
+      "-OTlVeXCHcXZI43Gyjkv": true
+    },
+    "wkbAdMZwVeNWAIqhlo6xiKq0m1x2": {
+      "-OT8oC705nV3_Ll7Jz67": true,
+      "-OTSWqvEComix_ZXBli3": true
     }
   }
-}
+} 

@@ -56,6 +56,8 @@
 
 
 .blog-card {
+  display: flex;
+flex-direction: column;
   background: #fff;
   border-radius: 16px;
   padding: 1rem; /* was 1.5rem */
@@ -126,9 +128,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  object-fit: cover;
   background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  overflow: hidden;
 }
+
 
 .blog-title {
   font-size: 1.4rem;
@@ -226,8 +236,11 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  margin-top: 1.1rem;
+  margin-top: auto; /* Push to bottom */
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
+
 
 .like-button, .comment-count-btn {
   background: transparent;
@@ -395,3 +408,41 @@
   box-shadow: 0 2px 12px rgba(0,0,0,0.10);
 }
 
+.flag-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.flag-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.flag-btn {
+  background: none;
+  color: red;
+  border: none;
+  cursor: pointer;
+}
+
+.flagged-indicator {
+  color: red;
+  font-weight: bold;
+  margin-left: 10px;
+}
